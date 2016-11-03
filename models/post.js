@@ -6,7 +6,7 @@ var PostSchema = new mongoose.Schema(
 	author: String,
 	title: String,
 	body: String,
-	attach: [{type: String}],
+	attach: [{image: String, preview: String}],
 	thread: {type: mongoose.Schema.Types.ObjectId, ref: 'Post'},
 	root: Boolean,
 	board: {type: mongoose.Schema.Types.ObjectId, ref: 'Board'},

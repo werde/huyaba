@@ -13,8 +13,8 @@ var storage = multer.diskStorage({
 	},
 	filename: function (req, file, cb) 
 	{
-		//console.log(file.originalname);
-		//console.log(file);
+		var validFormats = ['jpg', 'gif', 'png', 'jpeg'];
+
 		try
 		{
 			var fileExtension = file.originalname.split('.').pop();
@@ -23,8 +23,11 @@ var storage = multer.diskStorage({
 			var fileExtension = '';
 		}
 
-		var filename = (new Date()).getTime();
-		cb(null, file.originalname);
+		if (validFormats.indexOf(fileExtension) !== -1)
+		{
+			var filename = (new Date()).getTime() + Math.floor(Math.random() * 10000) + "." + fileExtension;
+			cb(null, filename);
+		}
 	}
 });
 var upload = multer({ storage: storage });

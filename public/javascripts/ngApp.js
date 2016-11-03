@@ -29,7 +29,6 @@ app.config([
 					return posts.getThreads($stateParams.board);
 				}]
 			}
-
 		})
 
 		$stateProvider.state('thread',
@@ -160,11 +159,12 @@ app.factory('posts', ['$http', '$stateParams', 'fileUpload',  function($http, $s
 	}
 ])
 
-app.directive('fileModel', ['$parse', 'fileUpload', 'imageService', function ($parse, fileUpload, imageService) 
+app.directive('fileModel', ['$parse', '$filter', 'fileUpload', 'imageService', function ($parse, $filter, fileUpload, imageService) 
 {
+	var validFormats = ['jpg', 'gif', 'png', 'jpeg'];
 	return {
 		restrict: 'A',
-		link: function(scope, element, attrs) 
+		link: function(scope, element, attrs, ctrl) 
 		{
 			var model = $parse(attrs.fileModel);
 			var isMultiple = attrs.multiple;
@@ -185,14 +185,28 @@ app.directive('fileModel', ['$parse', 'fileUpload', 'imageService', function ($p
 
 				//**TODO
 				//!! get element.onchange and call it with subsequent code
-				var files = scope.imageFile;
+				var files = [];
 
+				angular.forEach(scope.imageFile, function(file, index)
+				{
+					//check if not images or too big
+					var ext = file.name.substring(file.name.lastIndexOf('.') + 1).toLowerCase();
+					console.log(index + " "+ ext);
+					if ((validFormats.indexOf(ext) !== -1)&&(file.size <=  9000000))
+					{
+						files.push(file);
+					}
+				})
+
+				//check file count
 				var fileQueueLength = fileUpload.getFileQueue().length;
 				var filesLength = files.length;
 				if (fileQueueLength + filesLength*2 > 8) return;
 
+				//queue files
 				if (fileUpload.queueFiles(files) == false) return;
 
+				//preview
 				document.getElementById('empty-file-queue').style.display = "block";
 				angular.forEach(files, function(file)
 				{

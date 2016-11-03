@@ -65,7 +65,10 @@ exports.postThread = function(req, res, next)
 
 	thread.attach = [];
 	for (var i in pri)
-		thread.attach.push(files[pri[i]].originalname);
+	{
+		thread.attach.push({image : files[pri[i]].filename, preview: files[i].filename});
+	}
+
 
 	console.log(thread);
 
@@ -96,9 +99,12 @@ exports.postPost = function(req, res, next)
 	var pri = k(req.files);
 	console.log(pri);
 
-	post.attach = [];
+	thread.attach = [];
 	for (var i in pri)
-		post.attach.push(files[pri[i]].originalname);
+	{
+		thread.attach.push({image : files[pri[i]].filename, preview: files[i].filename});
+	}
+
 
 	console.log(post);
 
