@@ -20,6 +20,7 @@
 }
 .post-figure
 {
+	vertical-align: top;
 	box-sizing: border-box;
 	display: inline-block;
 	margin: 0px 8px;
@@ -29,6 +30,7 @@
 	margin: 8px;
 	word-wrap: break-word;
 	overflow: hidden;
+	white-space:pre-wrap;
 }
 
 .form-empty-file-queue-box 

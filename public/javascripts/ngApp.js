@@ -131,9 +131,12 @@ app.factory('posts', ['$http', '$stateParams', 'fileUpload',  function($http, $s
 			{
 				transformRequest: angular.identity, 
 				headers: {'Content-Type': undefined}
-			}).success(function()
+			}).success(function(data)
 			{
-				console.log("fileUpload success ", fd);
+				if (o.posts)
+					o.posts.push(data);
+				else 
+					o.threads.push(data);
 			}).error(function()
 			{
 				console.log("fileUpload error");
