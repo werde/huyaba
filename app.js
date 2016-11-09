@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 require('./models/board');
 require('./models/post');
+require('./models/admin');
 mongoose.connect('mongodb://localhost/huyaba');
 
 var routes = require('./routes/index');
@@ -32,9 +33,9 @@ app.use('/users', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+	var err = new Error('Not Found');
+	err.status = 404;
+	next(err);
 });
 
 // error handlers
@@ -43,23 +44,46 @@ app.use(function(req, res, next) {
 // will print stacktrace
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
-    });
+	res.status(err.status || 500);
+	res.render('error', {
+		message: err.message,
+		error: err
+	});
   });
 }
 
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
+	res.status(err.status || 500);
+	res.render('error', {
+	message: err.message,
+	error: {}
+	});
 });
 
+var passport = require('passport')
+  , LocalStrategy = require('passport-local').Strategy;
+
+var Admin = mongoose.model('Admin');
+passport.use(new LocalStrategy({
+	usernameField: 'name',
+	passwordField: 'password'
+	},
+	function(name, password, done)
+	{
+		console.log('LocalStrategy');
+		Admin.findOne({name: name}, function(err, adm)
+		{
+			console.log('Admin.findOne');
+			if (err) return done(err);
+			if (!adm) return done(null, false, {message: "No admin with that login"});
+			if (!adm.verifyPassword(password)) return done(null, false, {message: "Wrong password"});
+
+			return done(null, adm);
+		})
+	})
+)
+app.use(passport.initialize());
 
 module.exports = app;

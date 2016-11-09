@@ -1,4 +1,12 @@
-@import url('https://fonts.googleapis.com/css?family=Squada+One');
+@font-face {
+  font-family: 'Squada One';
+  src: url('SquadaOne-Regular.ttf') format('truetype');
+}
+
+.myh1 {
+	font-family: 'Squada One', cursive;
+	font-size: 32px;
+}
 
 .myh3 {
 	font-family: 'Squada One', cursive;

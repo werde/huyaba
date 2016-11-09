@@ -63,6 +63,12 @@ router.param('thread', function(req, res, next, id)
 	})
 })
 
+	//get admin page
+router.get('/admin/index', require('./admin').get)
+	//get login admin page
+router.get('/admin/login', require('./admin').getLogin)
+	//admin post
+router.post('/admin/login', require('./admin').login)
 	//image upload
 router.post('/upload/images', upload.array('file'), require('./upload').uploadImage);
 	//index
