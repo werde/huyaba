@@ -30,7 +30,23 @@ var storage = multer.diskStorage({
 		}
 	}
 });
+
 var upload = multer({ storage: storage });
+
+var auth = function(req, res, next)
+{
+	console.log(req.cookies.adminCookie);
+
+	if (req.cookies.adminCookie == "true")
+	{
+		req.isLoggedIn = true;
+		return next();
+	}
+	else
+	{
+		return res.status(401).json({message: "Not logged in"});
+	}
+}
 
 router.param('board', function(req, res, next, acronym)
 {
@@ -64,7 +80,7 @@ router.param('thread', function(req, res, next, id)
 })
 
 	//get admin page
-router.get('/admin/index', require('./admin').get)
+router.get('/admin/index', auth, require('./admin').get)
 	//get login admin page
 router.get('/admin/login', require('./admin').getLogin)
 	//admin post

@@ -86,4 +86,12 @@ passport.use(new LocalStrategy({
 )
 app.use(passport.initialize());
 
+/*
+var CryptoJS = require("crypto-js");
+
+var ciphertext = CryptoJS.AES.encrypt('admin', 'secret key 123');
+ 
+console.log(ciphertext.toString());
+*/
+
 module.exports = app;
