@@ -48,9 +48,10 @@ var auth = function(req, res, next)
 	}
 }
 
-router.param('board', function(req, res, next, acronym)
+router.param('board', function(req, res, next, url)
 {
-	var query = Board.find({acronym: acronym});
+	console.log("url " + url);
+	var query = Board.find({url: '/' + url + '/'});
 
 	query.exec(function(err, board)
 	{
@@ -80,11 +81,15 @@ router.param('thread', function(req, res, next, id)
 })
 
 	//get admin page
-router.get('/admin/index', auth, require('./admin').get)
+router.get('/admin/index', auth, require('./admin').get);
 	//get login admin page
-router.get('/admin/login', require('./admin').getLogin)
-	//admin post
-router.post('/admin/login', require('./admin').login)
+router.get('/admin/login', require('./admin').getLogin);
+	//admin login post request
+router.post('/admin/login', require('./admin').login);
+	//admin make board
+router.post('/admin/mkboard', auth, require('./admin').makeBoard);
+	//admin delete board
+router.post('/admin/delboard', auth, require('./admin').deleteBoard)
 	//image upload
 router.post('/upload/images', upload.array('file'), require('./upload').uploadImage);
 	//index

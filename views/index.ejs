@@ -64,7 +64,7 @@
 			<div ng-show="post.attach.length" class="post-images">
 				<figure ng-repeat="attach in post.attach" class="post-figure">
 					<figcaption>
-						<a href="/uploads/{{attach.image}}">{{attach}}</a>
+						<a href="/uploads/{{attach.image}}">{{attach.image}}</a>
 					</figcaption>
 					<img ng-src="/uploads/{{attach.preview}}" src=""></img>
 				</figure>

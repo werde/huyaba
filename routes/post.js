@@ -97,15 +97,16 @@ exports.postPost = function(req, res, next)
 	post.created = new Date();
 
 	var pri = k(req.files);
+	console.log("pri");
 	console.log(pri);
 
-	thread.attach = [];
+	post.attach = [];
 	for (var i in pri)
 	{
-		thread.attach.push({image : files[pri[i]].filename, preview: files[i].filename});
+		post.attach.push({image : files[pri[i]].filename, preview: files[i].filename});
 	}
 
-
+	console.log("post");
 	console.log(post);
 
 	post.save(function(err, post)

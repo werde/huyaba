@@ -6,12 +6,18 @@
 </head>
 <body>
 	<h1 class="myh1">admin page</h1>
-	<form>
+	<form action="/admin/mkboard" method="post">
 		<h3> make board </h3>
-		<input type="text" placeholder="title"></input>
-		<input type="text" placeholder="acronym"></input>
-		<input type="text" placeholder="url"></input>
+		<input type="text" placeholder="board title e.g. videogames" name="title"></input>
+		<input type="text" placeholder="board acronym e.g. vg" name="acronym"></input>
+		<input type="text" placeholder="board url e.g. /vg/" name="url"></input>
 		<button type="submit">make</button>
+	</form>
+	<br>
+	<form action="/admin/delboard" method="post">
+		<h3> delete board </h3>
+		<input type="text" placeholder="board url e.g. /vg/" name="url"></input>
+		<button type="submit">delete</button>
 	</form>
 </body>
 </html>
